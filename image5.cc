@@ -5,9 +5,13 @@
 #include "sphere.h"
 
 #include <iostream>
-color ray_color(const ray& r, const hittable& world) {
+using namespace std;
+
+color ray_color(const ray& r, const hittable& world) 
+{
     hit_record rec;
-    if (world.hit(r, 0, infinity, rec)) {
+    if (world.hit(r, 0, infinity, rec)) 
+    {
         return 0.5 * (rec.normal + color(1,1,1));
     }
     vec3 unit_direction = unit_vector(r.direction());
@@ -15,7 +19,8 @@ color ray_color(const ray& r, const hittable& world) {
     return (1.0-t)*color(1.0, 1.0, 1.0) + t*color(0.5, 0.7, 1.0);
 }
 
-int main() {
+int main() 
+{
 
     const auto aspect_ratio = 16.0 / 9.0;
     const int image_width = 400;
@@ -36,11 +41,13 @@ int main() {
     auto lower_left_corner = origin - horizontal/2 - vertical/2 - vec3(0, 0, focal_length);
 
 
-    std::cout << "P3\n" << image_width << ' ' << image_height << "\n255\n";
+    cout << "P3\n" << image_width << ' ' << image_height << "\n255\n";
 
-    for (int j = image_height-1; j >= 0; --j) {
-        std::cerr << "\rScanlines remaining: " << j << ' ' << std::flush;
-        for (int i = 0; i < image_width; ++i) {
+    for (int j = image_height-1; j >= 0; --j) 
+    {
+        cerr << "\rScanlines remaining: " << j << ' ' << flush;
+        for (int i = 0; i < image_width; ++i) 
+        {
             auto u = double(i) / (image_width-1);
             auto v = double(j) / (image_height-1);
             ray r(origin, lower_left_corner + u*horizontal + v*vertical);
@@ -49,5 +56,5 @@ int main() {
         }
     }
 
-    std::cerr << "\nDone.\n";
+    cerr << "\nDone.\n";
 }

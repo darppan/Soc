@@ -5,9 +5,12 @@
 #include "sphere.h"
 
 #include <iostream>
-color ray_color(const ray& r, const hittable& world) {
+using namespace std;
+color ray_color(const ray& r, const hittable& world) 
+{
     hit_record rec;
-    if (world.hit(r, 0, infinity, rec)) {
+    if (world.hit(r, 0, infinity, rec)) 
+    {
         return 0.5 * (rec.normal + color(1,1,1));
     }
     vec3 unit_direction = unit_vector(r.direction());
@@ -15,7 +18,8 @@ color ray_color(const ray& r, const hittable& world) {
     return (1.0-t)*color(1.0, 1.0, 1.0) + t*color(0.5, 0.7, 1.0);
 }
 
-int main() {
+int main() 
+{
 
 
     const auto aspect_ratio = 16.0 / 9.0;
@@ -31,10 +35,10 @@ int main() {
     camera cam;
 
 
-    std::cout << "P3\n" << image_width << " " << image_height << "\n255\n";
+    cout << "P3\n" << image_width << " " << image_height << "\n255\n";
 
     for (int j = image_height-1; j >= 0; --j) {
-        std::cerr << "\rScanlines remaining: " << j << ' ' << std::flush;
+        cerr << "\rScanlines remaining: " << j << ' ' << flush;
         for (int i = 0; i < image_width; ++i) {
             color pixel_color(0, 0, 0);
             for (int s = 0; s < samples_per_pixel; ++s) {
@@ -43,9 +47,9 @@ int main() {
                 ray r = cam.get_ray(u, v);
                 pixel_color += ray_color(r, world);
             }
-            write_color(std::cout, pixel_color, samples_per_pixel);
+            write_color(cout, pixel_color, samples_per_pixel);
         }
     }
 
-    std::cerr << "\nDone.\n";
+    cerr << "\nDone.\n";
 }
