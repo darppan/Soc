@@ -41,6 +41,7 @@ class xz_rect : public hittable {
             return true;
         }
 
+<<<<<<< HEAD
         virtual double pdf_value(const point3& origin, const vec3& v) const override {
             hit_record rec;
             if (!this->hit(ray(origin, v), 0.001, infinity, rec))
@@ -58,6 +59,8 @@ class xz_rect : public hittable {
             return random_point - origin;
         }
 
+=======
+>>>>>>> b39214b1f610683d696c59063291669e20b91753
     public:
         shared_ptr<material> mp;
         double x0, x1, z0, z1, k;

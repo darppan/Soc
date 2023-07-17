@@ -3,7 +3,10 @@
 
 #include "hittable.h"
 #include "vec3.h"
+<<<<<<< HEAD
 #include"pdf.h"
+=======
+>>>>>>> b39214b1f610683d696c59063291669e20b91753
 
 class sphere : public hittable 
 {
@@ -26,8 +29,11 @@ class sphere : public hittable
             const ray& r, double t_min, double t_max, hit_record& rec) const override;
         
         virtual bool bounding_box(double time0, double time1, aabb& output_box) const override;
+<<<<<<< HEAD
         virtual double pdf_value(const point3& o, const vec3& v) const override;
         virtual vec3 random(const point3& o) const override;
+=======
+>>>>>>> b39214b1f610683d696c59063291669e20b91753
 
     public:
         point3 center;
@@ -69,6 +75,7 @@ bool sphere :: bounding_box(double time0, double time1, aabb& output_box) const
     return true;
 }
 
+<<<<<<< HEAD
 
 double sphere::pdf_value(const point3& o, const vec3& v) const {
     hit_record rec;
@@ -89,4 +96,6 @@ vec3 sphere::random(const point3& o) const {
     return uvw.local(random_to_sphere(radius, distance_squared));
 }
 
+=======
+>>>>>>> b39214b1f610683d696c59063291669e20b91753
 #endif

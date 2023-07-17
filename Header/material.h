@@ -3,6 +3,7 @@
 
 #include "rtweekend.h"
 #include "texture.h"
+<<<<<<< HEAD
 #include"onb.h"
 #include"pdf.h"
 
@@ -37,11 +38,32 @@ class material {
 };
 
 class lambertian : public material {
+=======
+
+struct hit_record;
+
+class material 
+{
+    public:
+
+        virtual color emitted(double u, double v, const point3& p) const {
+            return color(0,0,0);
+        }
+        
+        virtual bool scatter(
+            const ray& r_in, const hit_record& rec, color& attenuation, ray& scattered
+        ) const = 0;
+};
+
+class lambertian : public material 
+{
+>>>>>>> b39214b1f610683d696c59063291669e20b91753
     public:
         lambertian(const color& a) : albedo(make_shared<solid_color>(a)) {}
         lambertian(shared_ptr<texture> a) : albedo(a) {}
 
         virtual bool scatter(
+<<<<<<< HEAD
             const ray& r_in, const hit_record& rec, scatter_record& srec
         ) const override {
             srec.is_specular = false;
@@ -56,6 +78,21 @@ class lambertian : public material {
             auto cosine = dot(rec.normal, unit_vector(scattered.direction()));
             return cosine < 0 ? 0 : cosine/pi;
         }
+=======
+            const ray& r_in, const hit_record& rec, color& attenuation, ray& scattered
+        ) const override 
+        {
+            auto scatter_direction = rec.normal + random_unit_vector();
+
+            if (scatter_direction.near_zero())
+            {
+                scatter_direction = rec.normal;
+            }
+            scattered = ray(rec.p, scatter_direction, r_in.time());
+            attenuation = albedo->value(rec.u, rec.v, rec.p);
+            return true;
+        }
+>>>>>>> b39214b1f610683d696c59063291669e20b91753
 
     public:
         shared_ptr<texture> albedo;
@@ -67,6 +104,7 @@ class metal : public material
         metal(const color& a, double f) : albedo(a), fuzz(f < 1 ? f : 1) {}
 
         virtual bool scatter(
+<<<<<<< HEAD
             const ray& r_in, const hit_record& rec, scatter_record& srec
         ) const override {
             vec3 reflected = reflect(unit_vector(r_in.direction()), rec.normal);
@@ -75,6 +113,15 @@ class metal : public material
             srec.is_specular = true;
             srec.pdf_ptr = 0;
             return true;
+=======
+            const ray& r_in, const hit_record& rec, color& attenuation, ray& scattered
+        ) const override 
+        {
+            vec3 reflected = reflect(unit_vector(r_in.direction()), rec.normal);
+            scattered = ray(rec.p, reflected + fuzz*random_in_unit_sphere(), r_in.time());
+            attenuation = albedo;
+            return (dot(scattered.direction(), rec.normal) > 0);
+>>>>>>> b39214b1f610683d696c59063291669e20b91753
         }
 
     public:
@@ -88,12 +135,19 @@ class dielectric : public material
         dielectric(double index_of_refraction) : ir(index_of_refraction) {}
 
         virtual bool scatter(
+<<<<<<< HEAD
             const ray& r_in, const hit_record& rec, scatter_record& srec
         ) const override 
         {
             srec.is_specular = true;
             srec.pdf_ptr = nullptr;
             srec.attenuation = color(1.0, 1.0, 1.0);
+=======
+            const ray& r_in, const hit_record& rec, color& attenuation, ray& scattered
+        ) const override 
+        {
+            attenuation = color(1.0, 1.0, 1.0);
+>>>>>>> b39214b1f610683d696c59063291669e20b91753
             double refraction_ratio = rec.front_face ? (1.0/ir) : ir;
 
             vec3 unit_direction = unit_vector(r_in.direction());
@@ -111,7 +165,11 @@ class dielectric : public material
                 direction = refract(unit_direction, rec.normal, refraction_ratio);
             }
 
+<<<<<<< HEAD
             srec.specular_ray = ray(rec.p, direction, r_in.time());
+=======
+            scattered = ray(rec.p, direction, r_in.time());
+>>>>>>> b39214b1f610683d696c59063291669e20b91753
             return true;
         }
 
@@ -133,11 +191,16 @@ class diffuse_light : public material  {
         diffuse_light(color c) : emit(make_shared<solid_color>(c)) {}
 
         virtual bool scatter(
+<<<<<<< HEAD
             const ray& r_in, const hit_record& rec, scatter_record& srec
+=======
+            const ray& r_in, const hit_record& rec, color& attenuation, ray& scattered
+>>>>>>> b39214b1f610683d696c59063291669e20b91753
         ) const override {
             return false;
         }
 
+<<<<<<< HEAD
         virtual color emitted(const ray& r_in, const hit_record& rec, double u, double v,
             const point3& p) const override {
 
@@ -146,6 +209,11 @@ class diffuse_light : public material  {
             else
                 return color(0,0,0);
 }
+=======
+        virtual color emitted(double u, double v, const point3& p) const override {
+            return emit->value(u, v, p);
+        }
+>>>>>>> b39214b1f610683d696c59063291669e20b91753
 
     public:
         shared_ptr<texture> emit;
@@ -157,6 +225,7 @@ class isotropic : public material {
         isotropic(shared_ptr<texture> a) : albedo(a) {}
 
         virtual bool scatter(
+<<<<<<< HEAD
             const ray& r_in, const hit_record& rec, scatter_record& srec
         ) const override {
             srec.is_specular = false;
@@ -173,6 +242,14 @@ class isotropic : public material {
             auto cosine = dot(rec.normal, unit_vector(scattered.direction()));
             return cosine < 0 ? 0 : cosine/pi;
         }
+=======
+            const ray& r_in, const hit_record& rec, color& attenuation, ray& scattered
+        ) const override {
+            scattered = ray(rec.p, random_in_unit_sphere(), r_in.time());
+            attenuation = albedo->value(rec.u, rec.v, rec.p);
+            return true;
+        }
+>>>>>>> b39214b1f610683d696c59063291669e20b91753
 
     public:
         shared_ptr<texture> albedo;

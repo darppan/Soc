@@ -23,6 +23,7 @@ struct hit_record
     }
 };
 
+<<<<<<< HEAD
 class hittable {
     public:
         virtual bool hit(const ray& r, double t_min, double t_max, hit_record& rec) const = 0;
@@ -34,6 +35,13 @@ class hittable {
         virtual vec3 random(const vec3& o) const {
             return vec3(1, 0, 0);
         }
+=======
+class hittable 
+{
+    public:
+        virtual bool hit(const ray& r, double t_min, double t_max, hit_record& rec) const = 0;
+        virtual bool bounding_box(double time0, double time1, aabb& outputbox) const = 0;
+>>>>>>> b39214b1f610683d696c59063291669e20b91753
 };
 
 class translate : public hittable {
@@ -155,6 +163,7 @@ bool rotate_y::hit(const ray& r, double t_min, double t_max, hit_record& rec) co
     return true;
 }
 
+<<<<<<< HEAD
 class flip_face : public hittable {
     public:
         flip_face(shared_ptr<hittable> p) : ptr(p) {}
@@ -177,4 +186,6 @@ class flip_face : public hittable {
         shared_ptr<hittable> ptr;
 };
 
+=======
+>>>>>>> b39214b1f610683d696c59063291669e20b91753
 #endif

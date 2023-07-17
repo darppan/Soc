@@ -4,7 +4,10 @@
 #include <cmath>
 #include <iostream>
 #include"randomgen.h"
+<<<<<<< HEAD
 #include"rtweekend.h"
+=======
+>>>>>>> b39214b1f610683d696c59063291669e20b91753
 
 using std::sqrt;
 
@@ -176,6 +179,7 @@ vec3 refract(const vec3& uv, const vec3& n, double etai_over_etat)
     return r_out_perp + r_out_parallel;
 }
 
+<<<<<<< HEAD
 inline vec3 random_cosine_direction() {
     auto r1 = random_double();
     auto r2 = random_double();
@@ -188,4 +192,6 @@ inline vec3 random_cosine_direction() {
     return vec3(x, y, z);
 }
 
+=======
+>>>>>>> b39214b1f610683d696c59063291669e20b91753
 #endif
